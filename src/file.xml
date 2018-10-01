@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="file">
+
+	<insert id="insertImage" parameterClass="java.util.HashMap">
+		INSERT INTO TB_FILE
+        (
+            IDX,
+            ORIGINAL_FILE_NAME,
+            STORED_FILE_NAME,
+            FILE_SIZE
+        )
+        VALUES
+        (
+            SEQ_TB_FILE_IDX.NEXTVAL,
+            #ORIGINAL_FILE_NAME#,
+            #STORED_FILE_NAME#,
+            #FILE_SIZE#
+        )
+        <selectKey keyProperty="IDX" resultClass="java.lang.String">
+        	SELECT SEQ_TB_FILE_IDX.CURRVAL FROM DUAL
+        </selectKey>
+	</insert>
+	
+	<select id="selectFile" parameterClass="int" resultClass="java.util.HashMap">
+        SELECT
+            ORIGINAL_FILE_NAME,
+            STORED_FILE_NAME
+        FROM
+            TB_FILE
+        WHERE
+            IDX = #IDX#
+            AND DEL_GB = 'N'
+	</select>
+	
+</sqlMap>    
